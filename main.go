@@ -1,3 +1,6 @@
+// Based on https://github.com/zooraze/chi-vue-spa
+// and https://github.com/thefrol/go-chi-yandex-cloud-template
+
 package main
 
 import (
@@ -9,9 +12,14 @@ import (
 var Router = chi.NewRouter()
 
 func init() {
-	Router.Get("/", rootHandler)
+	fileServer := http.FileServer(http.Dir("web"))
+	Router.Handle("/*", fileServer)
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Добро пожаловать в яндекс облако!"))
+	http.ServeFile(w, r, "./web/index.html")
+}
+
+func main() {
+	http.ListenAndServe(":8080", Router)
 }
