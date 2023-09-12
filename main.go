@@ -16,10 +16,6 @@ func init() {
 	Router.Handle("/*", fileServer)
 }
 
-func rootHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./web/index.html")
-}
-
 func main() {
 	http.ListenAndServe(":8080", Router)
 }
